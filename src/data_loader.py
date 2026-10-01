@@ -35,10 +35,11 @@ def has_images(root):
     return False
 
 
-def _file_hash(path, n=65536):
+def _file_hash(path):
     h = hashlib.md5()
     with open(path, "rb") as f:
-        h.update(f.read(n))
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
     return h.hexdigest()
 
 
