@@ -1,5 +1,7 @@
 # ♻️ Automated Waste Segregation using Deep Learning + MLOps
 
+**🚀 Live Demo:** https://automated-waste-segregation-npiekcvayhdvzzbavnqnir.streamlit.app/
+
 6-class waste classifier (**EfficientNetV2B0**, transfer learning) with a full
 MLOps pipeline: MLflow tracking + registry, GitHub Actions CI, FastAPI
 inference API, monitoring logs. Built to match the project PPT phase-by-phase.
