@@ -9,6 +9,7 @@ mlruns/
 logs/*.jsonl
 logs/*.log
 reports/
+!reports/*.png
 # images are ingested at train time, not versioned in git (see data/README.md)
 data/TrashNet/
 data/trashnet_upstream/
