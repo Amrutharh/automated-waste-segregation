@@ -1,0 +1,28 @@
+name: mlops_mp
+
+# Phase 6 - CI/CD (PPT): triggered on push; checkout, env setup,
+# deps install, pipeline validation, test execution.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Pipeline validation (lint + smoke)
+        run: |
+          python -m py_compile src/*.py app_mp.py train.py register_model.py
+          python -c "from src.config import CLASSES; assert len(CLASSES)==6"
+      - name: Test execution
+        run: |
+          python -m pytest tests/ -v

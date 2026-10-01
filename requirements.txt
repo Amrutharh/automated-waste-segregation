@@ -1,0 +1,13 @@
+# Inference/API + MLOps (always needed)
+fastapi
+uvicorn
+pillow
+numpy
+mlflow
+pytest
+httpx
+# Training (GPU env / Colab; lazy-imported, not needed for API+tests)
+tensorflow
+albumentations
+matplotlib
+scikit-learn
