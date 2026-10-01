@@ -44,17 +44,17 @@ def _file_hash(path):
 
 
 def scan_dataset(root):
-    """Walk class-wise folders. Returns [(path, class_id)]."""
+    """Find class folders at ANY depth (handles nested extractions).
+    Returns [(path, class_id)]."""
     items = []
-    for cls in CLASSES:
-        for cand in (cls, cls.capitalize(), cls.upper()):
-            d = os.path.join(root, cand)
-            if os.path.isdir(d):
-                for fn in sorted(os.listdir(d)):
-                    if fn.lower().endswith(IMG_EXTS):
-                        items.append((os.path.join(d, fn), cand.lower()))
-    # also support flat layout with class prefix e.g. img_plastic_12.jpg
-    if not items:
+    for dp, dn, fns in os.walk(root):
+        if os.path.basename(dp).lower() in CLASSES:
+            for fn in sorted(fns):
+                if fn.lower().endswith(IMG_EXTS):
+                    items.append((os.path.join(dp, fn),
+                                  os.path.basename(dp).lower()))
+    # flat layout fallback: class prefix e.g. img_plastic_12.jpg
+    if not items and os.path.isdir(root):
         for fn in sorted(os.listdir(root)):
             if fn.lower().endswith(IMG_EXTS):
                 low = fn.lower()
