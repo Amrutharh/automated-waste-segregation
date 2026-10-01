@@ -6,6 +6,7 @@ numpy
 mlflow
 pytest
 httpx
+streamlit
 # Training (GPU env / Colab; lazy-imported, not needed for API+tests)
 tensorflow
 albumentations
