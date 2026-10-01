@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .venv/
 models/*.h5
+!models/best_model.h5
 models/ckpt_*.h5
 mlruns/
 logs/*.jsonl
