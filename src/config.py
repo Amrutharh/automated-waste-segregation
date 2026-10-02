@@ -38,6 +38,7 @@ BEST_MODEL_NAME = "best_model.h5"
 # Garbage-Classification layout, or your manually collected folders.
 DATA_CANDIDATES = [
     os.path.join(DATA_DIR, "TrashNet"),
+    os.path.join(DATA_DIR, "Manual"),  # manually/publicly collected extra images
     os.path.join(DATA_DIR, "dataset"),
     os.path.join(DATA_DIR, "Garbage classification"),
     DATA_DIR,

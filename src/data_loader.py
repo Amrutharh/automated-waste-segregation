@@ -28,6 +28,14 @@ def find_dataset_root(explicit=None):
     return None
 
 
+def find_all_roots(explicit=None):
+    """All usable dataset roots (PPT: data from multiple sources)."""
+    if explicit:
+        return [explicit] if os.path.isdir(explicit) else []
+    return [p for p in DATA_CANDIDATES
+            if os.path.isdir(p) and has_images(p)]
+
+
 def has_images(root):
     for _dp, _dn, fns in os.walk(root):
         if any(f.lower().endswith(IMG_EXTS) for f in fns):
@@ -109,18 +117,20 @@ def distribution(items):
 
 
 def load_or_report(explicit=None):
-    """Returns (splits_dict, info). Uses synthetic fallback if no data found."""
-    root = find_dataset_root(explicit)
-    if root is None:
+    """Returns (splits_dict, info). Merges all sources; synthetic fallback."""
+    roots = find_all_roots(explicit)
+    if not roots:
         print("[data] No image dataset found under data/ - using synthetic fallback.")
         items = synthetic_items(n_per_class=30)
         return stratified_split(items), {"real": False, "root": None,
                                          "dist": distribution(items)}
-    items = scan_dataset(root)
+    items = []
+    for root in roots:
+        items += scan_dataset(root)
     items, dropped = clean_items(items)
-    print(f"[data] root={root} kept={len(items)} dropped={dropped}")
+    print(f"[data] roots={roots} kept={len(items)} dropped={dropped}")
     print(f"[data] class distribution: {distribution(items)}")
-    return stratified_split(items), {"real": True, "root": root,
+    return stratified_split(items), {"real": True, "roots": roots,
                                      "dist": distribution(items), "dropped": dropped}
 
 
