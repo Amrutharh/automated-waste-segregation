@@ -13,3 +13,4 @@ reports/
 # images are ingested at train time, not versioned in git (see data/README.md)
 data/TrashNet/
 data/trashnet_upstream/
+*.zip
